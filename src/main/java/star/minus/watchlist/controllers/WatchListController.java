@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @RestController
+@RequestMapping("/api")
 public class WatchListController {
     private ServiceTemplate service;
 
@@ -20,6 +21,7 @@ public class WatchListController {
     }
 
     @GetMapping("/watchlist")
+    @CrossOrigin(origins = "https://star-minus.vercel.app")
     public ResponseEntity<Map<String, List<WatchListResource>>>index(){
         List<WatchListResource> watchList = service.findAll();
         Map<String, List<WatchListResource>> response = new HashMap<>();
@@ -51,8 +53,8 @@ public class WatchListController {
         }
         return response;
     }
-    @DeleteMapping("/destroy")
-    public Map<String,String>delete(@RequestBody List<Long> ids){
+    @DeleteMapping("/destroy/{ids}")
+    public Map<String,String>delete(@PathVariable List<Long> ids){
         Map<String,String> response = new HashMap<>();
         Boolean status = service.deleteAllElements(ids);
         if (status){
